@@ -10,10 +10,10 @@ String myLedToJson(MyLed data) => json.encode(data.toJson());
 
 class MyLed {
   MyLed({
-    required this.room,
-    required this.roomDetail,
-    required this.table,
-    required this.success,
+     this.room,
+     this.roomDetail,
+     this.table,
+     this.success,
   });
 
   List<String> room;
@@ -38,7 +38,7 @@ class MyLed {
 
 class RoomDetail {
   RoomDetail({
-    required this.devices,
+     this.devices,
   });
 
   List<Device> devices;
@@ -55,8 +55,8 @@ class RoomDetail {
 
 class Device {
   Device({
-    required this.id,
-    required this.type,
+     this.id,
+     this.type,
   });
 
   String id;

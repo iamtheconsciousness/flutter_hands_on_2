@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dataBase.dart';
 import 'structure_model.dart';
 
+
 class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -20,14 +21,14 @@ class MyDashboard extends StatefulWidget {
   _MyDashboardState createState() => _MyDashboardState();
 }
 class _MyDashboardState extends State<MyDashboard> {
-  late List<Led> rLed;
+   List<Led> rLed;
   final DbManager dbManager = new DbManager();
-  late List<Led> modelList;
+   List<Led> modelList;
 
 
-  late SharedPreferences logindata;
-  late String? username;
-  late String? table;
+   SharedPreferences logindata;
+   String username;
+   String table;
   @override
   void initState() {
     // TODO: implement initState
@@ -49,16 +50,13 @@ class _MyDashboardState extends State<MyDashboard> {
         title: Text("Hand's On 2"),
       ),
       body: FutureBuilder(
-        future: dbManager.getModelList(),
+        future: dbManager.getDistRooms(),
         builder: (context,AsyncSnapshot snapshot) {
           if (!snapshot.hasData) {
-            print("no data");
             return Center(
               child: CircularProgressIndicator(),
             );
           } else if(snapshot.data.length>0) {
-            print("data is present");
-            print(snapshot.data.length);
             return ListView.separated(
               separatorBuilder: (context, index) => Divider(
                 color: Colors.black12,

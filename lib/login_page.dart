@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dashboard.dart';
+import 'main.dart';
 import 'services.dart';
 import 'login_model.dart';
 import 'dataBase.dart';
 import 'structure_model.dart';
 import 'structure_service.dart';
 
-late List<Led> rLed;
+ List<Led> rLed;
 final DbManager dbManager = new DbManager();
 String readUrl='https://newdoonchemist.ml/read_all.php';
 
@@ -40,8 +40,8 @@ class _MyLoginPageState extends State<MyLoginPage> {
   var isLoading = false;
   final username_controller = TextEditingController();
   final password_controller = TextEditingController();
-  late SharedPreferences logindata;
-  late bool newuser;
+   SharedPreferences logindata;
+   bool newuser;
   @override
   void initState() {
     // TODO: implement initState
@@ -53,8 +53,8 @@ class _MyLoginPageState extends State<MyLoginPage> {
     newuser = (logindata.getBool('login') ?? true);
     print(newuser);
     if (newuser == false) {
-      Navigator.pushReplacement(
-          context, new MaterialPageRoute(builder: (context) => MyDashboard()));
+      Navigator.pushAndRemoveUntil(
+          context, new MaterialPageRoute(builder: (context) => MyDashboard()),(route) => false);
     }
   }
   @override
@@ -114,14 +114,12 @@ class _MyLoginPageState extends State<MyLoginPage> {
                 });
                 String username = username_controller.text;
                 String password = password_controller.text;
-                late MyLed _access;
+                 MyLed _access;
 
                 if (username != '' && password != '') {
                   String login_url='https://newdoonchemist.ml/login.php?user=$username&pass=$password';
 
-
                   services.getAccess(login_url).then((access)  {
-
                     _access=access;
                     if(_access.success==404){
                       isLoading=false;
@@ -146,18 +144,16 @@ class _MyLoginPageState extends State<MyLoginPage> {
                       isLoading=false;
                       struct_services.getAccess(readUrl).then((tab)  async {
                         rLed=tab;
+
                         dbManager.insertModel(rLed);
                         print('Successfull');
                         logindata.setBool('login', false);
                         logindata.setString('username', username);
                         logindata.setString('table',_access.table);
-                        await Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => MyDashboard()));
+                        await Navigator.pushAndRemoveUntil(context,
+                            MaterialPageRoute(builder: (context) => MyDashboard()),(route) => false,);
 
                       });
-
-
-
                     }
                   });
 

@@ -10,8 +10,8 @@ String myStructToJson(ReadTable data) => json.encode(data.toJson());
 
 class ReadTable {
   ReadTable({
-    required this.led,
-    required this.success,
+     this.led,
+     this.success,
   });
 
   List<Led> led;
@@ -30,24 +30,54 @@ class ReadTable {
 
 class Led {
   Led({
-    required this.id,
-    required this.state,
-    required this.room,
+    this.id,
+    this.state,
+    this.room,
+    this.variable,
+    this.type,
+    this.name,
   });
 
   String id;
   String state;
   String room;
-
+  String variable;
+  String type;
+  String name;
   factory Led.fromJson(Map<String, dynamic> json) => Led(
     id: json["id"],
     state: json["state"],
     room: json["room"],
+    variable: json["variable"],
+    type: json["type"],
+    name: json["name"]
   );
 
   Map<String, dynamic> toJson() => {
     "id": id,
     "state": state,
     "room": room,
+    "variable": variable,
+    "type": type,
+    "name":name
+  };
+}
+
+
+class LedRooms {
+  LedRooms({
+         this.room,
+  });
+
+
+  String room;
+
+  factory LedRooms.fromJson(Map<String, dynamic> json) => LedRooms(
+
+    room: json["room"],
+  );
+
+  Map<String, dynamic> toJson() => {
+        "room": room,
   };
 }
